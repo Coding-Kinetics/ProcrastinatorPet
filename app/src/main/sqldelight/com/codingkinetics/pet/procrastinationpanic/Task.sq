@@ -1,0 +1,46 @@
+CREATE TABLE taskEntity (
+  uid INTEGER PRIMARY KEY NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT,
+  state TEXT NOT NULL,
+  priority TEXT NOT NULL,
+  date_created TEXT NOT NULL,
+  date_due TEXT NOT NULL
+);
+
+CREATE INDEX task_title ON taskEntity(title);
+
+insertTask:
+INSERT INTO taskEntity(uid, title, description, state, priority, date_created, date_due)
+VALUES ?;
+
+selectAll:
+SELECT *
+FROM taskEntity;
+
+findById:
+SELECT * FROM taskEntity WHERE uid=?;
+
+deleteTask:
+DELETE FROM taskEntity WHERE uid=?;
+
+INSERT INTO taskEntity (uid, title, description, state, priority, date_created, date_due)
+VALUES
+(
+    1,
+    'Write out complete android app as refresher',
+    'Write out procrastination pet with a bunch of features',
+    'IN_PROGRESS',
+    'Normal',
+    '2025-02-14',
+    '2025-02-28'
+),
+(
+    2,
+    'Droidcon Academy EBook',
+    'I have 80 days!',
+    'IN_PROGRESS',
+    'Important',
+    '2025-02-10',
+    '2025-05-05'
+);
