@@ -41,26 +41,22 @@ fun TaskItem(
 ) {
     Surface(shadowElevation = 6.dp) {
         ListItem(
-            modifier =
-                Modifier
-                    .padding(PaddingValues(2.dp, 0.dp, 2.dp, 12.dp))
-                    .clip(RoundedCornerShape(10.dp))
-                    .shadow(elevation = 10.dp)
-                    .clickable(
-                        onClick = { onTaskItemSelected(task.id.toInt()) },
-                    ),
-            colors =
-                ListItemColors(
-                    containerColor = Color.White,
-                    headlineColor = Black,
-                    overlineColor = ButtonColor,
-                    supportingTextColor = DarkGray,
-                    leadingIconColor = DarkGray,
-                    trailingIconColor = Color.Unspecified,
-                    disabledHeadlineColor = Color.Unspecified,
-                    disabledLeadingIconColor = Color.Unspecified,
-                    disabledTrailingIconColor = DarkGray,
-                ),
+            modifier = Modifier
+                .padding(PaddingValues(2.dp, 0.dp, 2.dp, 12.dp))
+                .clip(RoundedCornerShape(10.dp))
+                .shadow(elevation = 10.dp)
+                .clickable(onClick = { onTaskItemSelected(task.id.toInt()) }),
+            colors = ListItemColors(
+                containerColor = Color.White,
+                headlineColor = Black,
+                overlineColor = ButtonColor,
+                supportingTextColor = DarkGray,
+                leadingIconColor = DarkGray,
+                trailingIconColor = Color.Unspecified,
+                disabledHeadlineColor = Color.Unspecified,
+                disabledLeadingIconColor = Color.Unspecified,
+                disabledTrailingIconColor = DarkGray,
+            ),
             headlineContent = {
                 Text(text = task.title)
             },

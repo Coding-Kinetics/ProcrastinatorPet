@@ -25,11 +25,10 @@ fun SegmentedPriorityButton(viewModel: HomeScreenViewModel) {
                 SegmentedButton(
                     selected = viewModel.task.priority == option,
                     onClick = { viewModel.updatePriority(option) },
-                    shape =
-                        SegmentedButtonDefaults.itemShape(
-                            index = index,
-                            count = TaskPriority.entries.size,
-                        ),
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = TaskPriority.entries.size,
+                    ),
                 ) {
                     Text(text = option.name)
                 }

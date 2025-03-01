@@ -13,38 +13,29 @@ private val uiFormatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
 fun Long.convertMillisToDate(
     tag: String,
     logger: Logger,
-): String {
-    return try {
-        return datePickerFormatter.format(Date(this))
-    } catch (e: Exception) {
-        logger.logError(tag, "$e")
-        ""
-    }
+): String = try {
+    datePickerFormatter.format(Date(this))
+} catch (e: Exception) {
+    logger.logError(tag, "$e")
+    ""
 }
 
 fun String.convertDateToMillis(
     tag: String,
     logger: Logger,
     task: String? = null,
-): Long {
-    return try {
-        datePickerFormatter.parse(this)?.time ?: 0
-    } catch (e: Exception) {
-        logger.logError(tag, "Couldn't parse String $this into Long for $task: $e")
-        0L
-    }
+): Long = try {
+    datePickerFormatter.parse(this)?.time ?: 0
+} catch (e: Exception) {
+    logger.logError(tag, "Couldn't parse String $this into Long for $task: $e")
+    0L
 }
 
-fun String.convertToLocalDate(
-    tag: String,
-    logger: Logger,
-): LocalDate {
-    return try {
-        return LocalDate.parse(this)
-    } catch (e: Exception) {
-        logger.logError(tag, "$e")
-        LocalDate.now()
-    }
+fun String.convertToLocalDate(tag: String, logger: Logger): LocalDate = try {
+    LocalDate.parse(this)
+} catch (e: Exception) {
+    logger.logError(tag, "$e")
+    LocalDate.now()
 }
 
 fun LocalDate.toStringDate(

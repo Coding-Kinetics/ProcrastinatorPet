@@ -19,13 +19,13 @@ fun PetAnimation(petState: PetState) {
         spec = LottieCompositionSpec.RawRes(petState.getRawAnimation()),
     )
 
-    val progress by animateLottieCompositionAsState(composition = rawComposition) // Use 'urlComposition' for Way 2
+    val progress by animateLottieCompositionAsState(composition = rawComposition)
 
     LottieAnimation(
         composition = rawComposition,
         contentScale = ContentScale.FillWidth,
-        modifier =
-            Modifier.width(300.dp)
-                .height(200.dp),
+        modifier = Modifier
+            .width(300.dp)
+            .height(200.dp),
     )
 }

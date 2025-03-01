@@ -50,7 +50,7 @@ fun HomeScreen(
                 itemsIndexed(
                     items = state.priorities.filter { it.priority == TaskPriority.Important },
                     contentType = { index, _ -> DraggableItem(index = index) },
-                ) { index, task ->
+                ) { _, task ->
                     TaskItem(viewModel, task, onTaskItemSelected, logger, upPress)
                 }
                 item {
@@ -59,7 +59,7 @@ fun HomeScreen(
                 itemsIndexed(
                     items = state.priorities.filter { it.priority == TaskPriority.Normal },
                     contentType = { index, _ -> DraggableItem(index = index) },
-                ) { index, task ->
+                ) { _, task ->
                     TaskItem(viewModel, task, onTaskItemSelected, logger, upPress)
                 }
             }
@@ -76,13 +76,7 @@ fun TitleText(title: String) {
         text = title,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
-        modifier =
-            Modifier.padding(
-                top = 20.dp,
-                bottom = 10.dp,
-                start = 10.dp,
-                end = 10.dp,
-            ),
+        modifier = Modifier.padding(20.dp, 10.dp, 10.dp, 10.dp),
     )
 }
 

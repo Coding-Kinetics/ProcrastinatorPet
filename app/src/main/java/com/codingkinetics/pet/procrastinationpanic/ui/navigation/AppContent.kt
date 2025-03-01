@@ -23,20 +23,19 @@ object DestinationArgs {
     const val TASK_ID = "id"
 }
 
-val topLevelRoutes =
-    listOf(
-        TopLevelRoute("Home", Destinations.Home, Icons.Filled.Home),
-    )
+val topLevelRoutes = listOf(TopLevelRoute("Home", Destinations.Home, Icons.Filled.Home))
 
 sealed class Destinations(val route: String) {
     data object Home : Destinations("home")
-
     data object NewTaskDialog : Destinations("home/dialog_new_task")
-
     data object EditTaskDialog : Destinations("home/dialog_edit_task/task?id={$TASK_ID}")
 }
 
-data class TopLevelRoute(val name: String, val route: Destinations, val icon: ImageVector)
+data class TopLevelRoute(
+    val name: String,
+    val route: Destinations,
+    val icon: ImageVector,
+)
 
 fun NavGraphBuilder.navGraph(
     navController: NavController,
@@ -62,15 +61,13 @@ fun NavGraphBuilder.navGraph(
     }
     dialog(
         route = Destinations.EditTaskDialog.route,
-        arguments =
-            listOf(
-                navArgument(TASK_ID) { type = NavType.StringType },
-            ),
-        dialogProperties =
-            DialogProperties(
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true,
-            ),
+        arguments = listOf(
+            navArgument(TASK_ID) { type = NavType.StringType },
+        ),
+        dialogProperties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true,
+        ),
     ) {
         AddNewTask(viewModel, logger, upPress, modifier)
     }

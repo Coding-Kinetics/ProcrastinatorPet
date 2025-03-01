@@ -54,8 +54,11 @@ fun AddNewTask(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(8.dp).background(LightBackground),
         horizontalAlignment = Alignment.Start,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .background(LightBackground),
     ) {
         val textFieldModifier =
             Modifier
@@ -79,9 +82,9 @@ fun AddNewTask(
                 fontSize = 18.sp,
                 fontWeight = Bold,
                 textAlign = TextAlign.Center,
-                modifier =
-                    modifier.fillMaxWidth()
-                        .padding(start = 24.dp, top = 10.dp, end = 24.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(start = 24.dp, top = 10.dp, end = 24.dp),
             )
         }
         OutlinedTextField(
@@ -105,9 +108,9 @@ fun AddNewTask(
         SegmentedPriorityButton(viewModel)
         DatePickerFieldToModal(viewModel, TASK_SCREEN, logger)
         Button(
-            modifier =
-                modifier.fillMaxWidth()
-                    .padding(start = 15.dp, top = 10.dp, end = 15.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp, top = 10.dp, end = 15.dp),
             onClick = {
                 viewModel.createTask()
                 upPress()

@@ -19,34 +19,26 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideDatabase(
-        @ApplicationContext context: Context,
-    ): Database {
-        return Database(
-            driver =
-                AndroidSqliteDriver(
-                    Database.Schema,
-                    context,
-                    "Task.db",
-                    callback =
-                        object : AndroidSqliteDriver.Callback(Database.Schema) {
-                            override fun onOpen(db: SupportSQLiteDatabase) {
-                                super.onOpen(db)
-                                db.setForeignKeyConstraintsEnabled(true)
-                            }
-                        },
-                ),
-        )
-    }
+    fun provideDatabase(@ApplicationContext context: Context): Database = Database(
+        AndroidSqliteDriver(
+            Database.Schema,
+            context,
+            "Task.db",
+            callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
+                override fun onOpen(db: SupportSQLiteDatabase) {
+                    super.onOpen(db)
+                    db.setForeignKeyConstraintsEnabled(true)
+                }
+            },
+        ),
+    )
 
     @Provides
     fun provideTaskLocalDataSource(
         database: Database,
         logger: Logger,
-    ): TaskLocalSource {
-        return TaskDataLocalSource(
-            database,
-            logger,
-        )
-    }
+    ): TaskLocalSource = TaskDataLocalSource(
+        database,
+        logger,
+    )
 }

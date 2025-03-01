@@ -32,13 +32,9 @@ fun HomePetAvatar(
     Text(
         text = "Way to be on top of your tasks!",
         textAlign = TextAlign.Center,
-        modifier =
-            Modifier.padding(
-                top = 10.dp,
-                bottom = 10.dp,
-                start = 20.dp,
-                end = 20.dp,
-            ).fillMaxWidth(),
+        modifier = Modifier
+            .padding(10.dp, 10.dp, 20.dp, 20.dp)
+            .fillMaxWidth(),
     )
     Box(
         contentAlignment = Alignment.TopEnd,
@@ -47,13 +43,12 @@ fun HomePetAvatar(
         Button(
             onClick = { addNewTask() },
             shape = RoundedCornerShape(10.dp),
-            colors =
-                ButtonColors(
-                    containerColor = Purple80,
-                    contentColor = Color.Black,
-                    disabledContentColor = PurpleGrey80,
-                    disabledContainerColor = Color.LightGray,
-                ),
+            colors = ButtonColors(
+                containerColor = Purple80,
+                contentColor = Color.Black,
+                disabledContentColor = PurpleGrey80,
+                disabledContainerColor = Color.LightGray,
+            ),
             modifier = Modifier.padding(5.dp),
         ) { Text("Add New Task") }
     }

@@ -46,22 +46,20 @@ fun DatePickerFieldToModal(
         trailingIcon = {
             Icon(Icons.Default.DateRange, contentDescription = "Select date")
         },
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .padding(start = 18.dp, top = 10.dp, end = 18.dp)
-                .pointerInput(viewModel.task.dueDate) {
-                    awaitEachGesture {
-                        // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
-                        // in the Initial pass to observe events before the text field consumes them
-                        // in the Main pass.
-                        awaitFirstDown(pass = PointerEventPass.Initial)
-                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-                        if (upEvent != null) {
-                            showModal = true
-                        }
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 18.dp, top = 10.dp, end = 18.dp)
+            .pointerInput(viewModel.task.dueDate) {
+                awaitEachGesture {
+                    // Modifier.clickable doesn't work for text fields, so we use Modifier.pointerInput
+                    // in the Initial pass to observe events before the text field consumes them
+                    // in the Main pass.
+                    awaitFirstDown(pass = PointerEventPass.Initial)
+                    waitForUpOrCancellation(pass = PointerEventPass.Initial)?.let {
+                        showModal = true
                     }
-                },
+                }
+            },
     )
 
     if (showModal) {

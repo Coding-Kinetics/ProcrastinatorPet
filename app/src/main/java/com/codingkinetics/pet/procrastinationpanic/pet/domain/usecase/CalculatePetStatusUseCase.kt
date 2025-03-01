@@ -9,18 +9,12 @@ interface PetStatusUseCase {
     operator fun invoke(tasks: List<Task>): Result<PetState>
 }
 
-class CalculatePetStatusUseCase
-    @Inject
-    constructor() : PetStatusUseCase {
-        override fun invoke(tasks: List<Task>): Result<PetState> {
-            return calculate(tasks)
-        }
+/**
+ * Go through tasks to see if any tasks are overdue or tasks are
+ * close to being overdue, lots of timer functions to work with here
+ */
+class CalculatePetStatusUseCase @Inject constructor() : PetStatusUseCase {
+    override fun invoke(tasks: List<Task>): Result<PetState> = calculate(tasks)
 
-        /**
-         * Go through tasks to see if any tasks are overdue or tasks are
-         * close to being overdue, lots of timer functions to work with here
-         */
-        private fun calculate(tasks: List<Task>): Result<PetState> {
-            return Result.Success(PetState.Happy)
-        }
-    }
+    private fun calculate(tasks: List<Task>): Result<PetState> = Result.Success(PetState.Happy)
+}

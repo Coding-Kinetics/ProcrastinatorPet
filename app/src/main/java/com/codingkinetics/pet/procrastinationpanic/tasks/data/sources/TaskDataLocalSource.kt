@@ -14,18 +14,17 @@ class TaskDataLocalSource
         private val database: Database,
         private val logger: Logger,
     ) : TaskLocalSource {
-        override suspend fun findById(id: Int): Result<TaskEntity> {
-            return try {
+        override suspend fun findById(id: Int): Result<TaskEntity> =
+            try {
                 val list = database.taskQueries.findById(id.toLong()).executeAsOne()
                 Result.Success(list)
             } catch (e: Exception) {
                 logger.logError(TAG, "Unable to insert task. Cause: $e")
                 Result.Failure(e)
             }
-        }
 
-        override suspend fun insertTask(task: TaskEntity): Result<List<TaskEntity>> {
-            return try {
+        override suspend fun insertTask(task: TaskEntity): Result<List<TaskEntity>> =
+            try {
                 val list =
                     database.transactionWithResult {
                         database.taskQueries.insertTask(task)
@@ -36,15 +35,13 @@ class TaskDataLocalSource
                 logger.logError(TAG, "Unable to insert task. Cause: $e")
                 Result.Failure(e)
             }
-        }
 
-        override suspend fun getAll(): Result<List<TaskEntity>> {
-            return try {
+        override suspend fun getAll(): Result<List<TaskEntity>> =
+            try {
                 val list = database.taskQueries.selectAll().executeAsList()
                 Result.Success(list)
             } catch (e: Exception) {
                 logger.logError(TAG, "Unable to insert task. Cause: $e")
                 Result.Failure(e)
             }
-        }
     }
