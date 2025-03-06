@@ -12,12 +12,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,9 +31,9 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -47,6 +53,8 @@ import com.codingkinetics.pet.procrastinationpanic.ui.theme.ProcrastinationPanic
 import com.codingkinetics.pet.procrastinationpanic.ui.theme.Purple80
 import com.codingkinetics.pet.procrastinationpanic.util.Logger
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,6 +66,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val viewModel = hiltViewModel<HomeScreenViewModel>()
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+            val scope = rememberCoroutineScope()
 
             ProcrastinationPanicTheme {
                 val navigationState = rememberNavigationState()
@@ -74,6 +84,8 @@ class MainActivity : ComponentActivity() {
                         addNewTask = navigationState::navigateToAddTaskDialog,
                         onTaskItemSelected = navigationState::navigateToEditTaskDialog,
                         upPress = navigationState::upPress,
+                        drawerState = drawerState,
+                        scope = scope,
                     )
                 }
             }
@@ -88,10 +100,27 @@ fun MainScreen(
     addNewTask: () -> Unit,
     onTaskItemSelected: (Int) -> Unit,
     logger: Logger,
+    drawerState: DrawerState,
+    scope: CoroutineScope,
     upPress: () -> Unit,
 ) {
-    MainScaffold(navController, viewModel) {
-        HomeScreen(viewModel, addNewTask, onTaskItemSelected, upPress, logger)
+    MainScaffold(navController, viewModel, drawerState, scope) {
+        ModalNavigationDrawer(
+            drawerContent = {
+                ModalDrawerSheet {
+                    Text("Menu")
+                    HorizontalDivider()
+                    NavigationDrawerItem(
+                        label = { Text("Notification Settings") },
+                        selected = false,
+                        onClick = { /* TODO */ }
+                    )
+                }
+            },
+            drawerState = drawerState
+        ) {
+            HomeScreen(viewModel, addNewTask, onTaskItemSelected, upPress, logger)
+        }
     }
 }
 
@@ -101,6 +130,8 @@ fun MainScreen(
 fun MainScaffold(
     navController: NavController,
     viewModel: HomeScreenViewModel,
+    drawerState: DrawerState,
+    scope: CoroutineScope,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val viewState by viewModel.viewState.observeAsState(HomeScreenViewState.Loading)
@@ -110,39 +141,34 @@ fun MainScaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Procrastination Panic",
-                        fontWeight = FontWeight.Bold,
-                    )
+                    Text("Procrastination Panic")
                 },
-                colors =
-                    TopAppBarColors(
-                        containerColor = Color.White,
-                        scrolledContainerColor = Color.Unspecified,
-                        navigationIconContentColor = Color.Unspecified,
-                        titleContentColor = Color.Black,
-                        actionIconContentColor = Color.Unspecified,
-                    ),
-                actions = {
-                    Button(
+                navigationIcon = {
+                    IconButton(
                         modifier = Modifier.padding(5.dp, 10.dp),
                         onClick = {
-                            // TODO add nav menu for notifications and about
+                            scope.launch {
+                                if (drawerState.isClosed) {
+                                    drawerState.open()
+                                } else {
+                                    drawerState.close()
+                                }
+                            }
                         },
-                        colors =
-                            ButtonColors(
-                                containerColor = Color.Transparent,
-                                contentColor = Color.DarkGray,
-                                disabledContainerColor = Color.LightGray,
-                                disabledContentColor = Color.White,
-                            ),
                     ) {
                         Icon(Icons.Filled.Menu, "Menu", Modifier.size(24.dp))
                     }
                 },
+                colors = TopAppBarColors(
+                    containerColor = Color.White,
+                    scrolledContainerColor = Color.Unspecified,
+                    navigationIconContentColor = Color.Unspecified,
+                    titleContentColor = Color.Black,
+                    actionIconContentColor = Color.Unspecified,
+                ),
             )
         },
-        content = { paddingValues ->
+        content = { paddingValues -> // intended for content padding to offset top and bottom bars
             Box(
                 modifier =
                     Modifier.padding(

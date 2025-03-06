@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.compose.nav)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.lottie.compose)
     implementation(libs.hilt.android)
     implementation(libs.androidx.material)
@@ -84,7 +85,6 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.serialization.json)
-    implementation(platform(libs.firebase.bom))
     ktlintRuleset(libs.ktlint)
 
     testImplementation(libs.junit)
@@ -94,6 +94,7 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(libs.androidx.work.testing)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

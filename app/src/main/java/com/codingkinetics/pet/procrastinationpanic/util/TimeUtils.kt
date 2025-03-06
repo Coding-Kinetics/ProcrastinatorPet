@@ -1,6 +1,7 @@
 package com.codingkinetics.pet.procrastinationpanic.util
 
 import android.annotation.SuppressLint
+import android.icu.util.Calendar
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
@@ -9,6 +10,7 @@ import java.util.Locale
 @SuppressLint("ConstantLocale")
 private val datePickerFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 private val uiFormatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+private val calendar = Calendar.getInstance()
 
 fun Long.convertMillisToDate(
     tag: String,
@@ -63,4 +65,19 @@ fun Long.convertToLocalDate(
         logger.logError(tag, "$e")
         LocalDate.now()
     }
+}
+
+fun Long.getNext8am(): Calendar {
+    val next8am = calendar
+    next8am.timeInMillis = this
+    next8am.set(Calendar.HOUR_OF_DAY, 8)
+    next8am.set(Calendar.MINUTE, 0)
+    next8am.set(Calendar.SECOND, 0)
+
+    // if it's already past 8am, schedule to next day
+    if (next8am.timeInMillis <= this) {
+        next8am.add(Calendar.DAY_OF_YEAR, 1)
+    }
+
+    return next8am
 }

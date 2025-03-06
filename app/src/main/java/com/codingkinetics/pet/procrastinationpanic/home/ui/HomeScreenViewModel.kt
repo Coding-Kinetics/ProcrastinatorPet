@@ -26,7 +26,10 @@ import javax.inject.Inject
 @Immutable
 sealed class HomeScreenViewState {
     data object Loading : HomeScreenViewState()
-    data class Content(val petState: PetState, val priorities: List<Task>) : HomeScreenViewState()
+    data class Content(
+        val petState: PetState,
+        val priorities: List<Task>,
+    ) : HomeScreenViewState()
     data class Error(val message: String) : HomeScreenViewState()
 }
 
@@ -126,23 +129,13 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private suspend fun updatePetStatus(tasks: List<Task>) {
-        when (val petStatus = calculatePetStatusUseCase(tasks)) {
-            is Result.Success ->
-                withContext(contextPool.mainDispatcher) {
-                    _viewState.value =
-                        HomeScreenViewState.Content(
-                            petState = petStatus.data,
-                            priorities = tasks,
-                        )
-                }
-            is Result.Failure ->
-                withContext(contextPool.mainDispatcher) {
-                    logger.logError(
-                        HOME_SCREEN_VIEWMODEL,
-                        "Unable to update pet status. Cause of error: ${petStatus.error}",
-                    )
-                    _viewState.value = HomeScreenViewState.Error(petStatus.error.toString())
-                }
+        val petStatus = calculatePetStatusUseCase(tasks)
+        withContext(contextPool.mainDispatcher) {
+            _viewState.value =
+                HomeScreenViewState.Content(
+                    petState = petStatus,
+                    priorities = tasks,
+                )
         }
     }
 }

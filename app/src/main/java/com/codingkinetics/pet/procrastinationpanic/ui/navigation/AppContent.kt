@@ -2,6 +2,7 @@ package com.codingkinetics.pet.procrastinationpanic.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.DrawerState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.window.DialogProperties
@@ -18,6 +19,7 @@ import com.codingkinetics.pet.procrastinationpanic.tasks.ui.AddNewTask
 import com.codingkinetics.pet.procrastinationpanic.tasks.ui.TaskScreen
 import com.codingkinetics.pet.procrastinationpanic.ui.navigation.DestinationArgs.TASK_ID
 import com.codingkinetics.pet.procrastinationpanic.util.Logger
+import kotlinx.coroutines.CoroutineScope
 
 object DestinationArgs {
     const val TASK_ID = "id"
@@ -44,6 +46,8 @@ fun NavGraphBuilder.navGraph(
     addNewTask: (NavBackStackEntry) -> Unit,
     onTaskItemSelected: (Int, NavBackStackEntry) -> Unit,
     upPress: () -> Unit,
+    drawerState: DrawerState,
+    scope: CoroutineScope,
     modifier: Modifier = Modifier,
 ) {
     composable(route = Destinations.Home.route) { navStackBackEntry ->
@@ -54,10 +58,12 @@ fun NavGraphBuilder.navGraph(
             onTaskItemSelected = { id -> onTaskItemSelected(id, navStackBackEntry) },
             logger = logger,
             upPress = upPress,
+            drawerState = drawerState,
+            scope = scope,
         )
     }
     composable(route = Destinations.NewTaskDialog.route) {
-        TaskScreen(navController, viewModel, logger, upPress)
+        TaskScreen(navController, viewModel, logger, upPress, scope, drawerState)
     }
     dialog(
         route = Destinations.EditTaskDialog.route,

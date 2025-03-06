@@ -6,7 +6,7 @@ import com.codingkinetics.pet.procrastinationpanic.util.Result
 import javax.inject.Inject
 
 interface PetStatusUseCase {
-    operator fun invoke(tasks: List<Task>): Result<PetState>
+    operator fun invoke(tasks: List<Task>): PetState
 }
 
 /**
@@ -14,7 +14,10 @@ interface PetStatusUseCase {
  * close to being overdue, lots of timer functions to work with here
  */
 class CalculatePetStatusUseCase @Inject constructor() : PetStatusUseCase {
-    override fun invoke(tasks: List<Task>): Result<PetState> = calculate(tasks)
+    override fun invoke(tasks: List<Task>): PetState = calculate(tasks)
 
-    private fun calculate(tasks: List<Task>): Result<PetState> = Result.Success(PetState.Happy)
+    private fun calculate(tasks: List<Task>): PetState {
+        // TODO calculate based on
+        return PetState.Happy
+    }
 }

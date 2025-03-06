@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +32,7 @@ import com.codingkinetics.pet.procrastinationpanic.MainScaffold
 import com.codingkinetics.pet.procrastinationpanic.home.ui.HomeScreenViewModel
 import com.codingkinetics.pet.procrastinationpanic.ui.theme.LightBackground
 import com.codingkinetics.pet.procrastinationpanic.util.Logger
+import kotlinx.coroutines.CoroutineScope
 
 const val TASK_SCREEN = "TaskScreen"
 
@@ -40,8 +42,10 @@ fun TaskScreen(
     viewModel: HomeScreenViewModel,
     logger: Logger,
     upPress: () -> Unit,
+    scope: CoroutineScope,
+    drawerState: DrawerState,
 ) {
-    MainScaffold(navController, viewModel) {
+    MainScaffold(navController, viewModel, drawerState, scope) {
         AddNewTask(viewModel, logger, upPress)
     }
 }

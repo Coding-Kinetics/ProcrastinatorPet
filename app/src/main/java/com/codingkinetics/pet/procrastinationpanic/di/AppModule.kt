@@ -1,5 +1,7 @@
 package com.codingkinetics.pet.procrastinationpanic.di
 
+import android.content.Context
+import androidx.work.WorkManager
 import com.codingkinetics.pet.procrastinationpanic.tasks.data.repository.TaskRepository
 import com.codingkinetics.pet.procrastinationpanic.tasks.data.repository.TaskRepositoryImpl
 import com.codingkinetics.pet.procrastinationpanic.util.CoroutineContextProvider
@@ -9,6 +11,7 @@ import com.codingkinetics.pet.procrastinationpanic.util.TimberLogger
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -17,7 +20,17 @@ import javax.inject.Singleton
 abstract class AppModule {
     @Singleton
     @Binds
-    abstract fun bindsCoroutineContextProvider(coroutineContextProvider: CoroutineContextProviderImpl): CoroutineContextProvider
+    abstract fun bindsCoroutineContextProvider(
+        coroutineContextProvider: CoroutineContextProviderImpl,
+    ): CoroutineContextProvider
+
+    @Singleton
+    @Binds
+    fun providesWorkManager(
+        @ApplicationContext context: Context,
+    ): WorkManager {
+        return WorkManager.getInstance(context)
+    }
 
     @Singleton
     @Binds
