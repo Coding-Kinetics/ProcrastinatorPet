@@ -78,18 +78,15 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteTask(id: Int): Result<List<Task>> {
-        TODO()
-        /*
         return try {
-            val updatedTasks = taskDao.deleteTask(id)
-            val tasksDomain = updatedTasks.toTaskDomain(tag, logger)
-            Result.Success(tasksDomain)
+            localDataSource.deleteTask(id)
+            return getAllTasks()
         } catch(e: Exception) {
             logger.logError(
                 tag,
-                "Problem deleting task id $id: ${e.message.toString()}"
+                "Problem deleting task id $id: ${e.message}"
             )
             Result.Failure(e)
-        }*/
+        }
     }
 }

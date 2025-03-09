@@ -10,6 +10,7 @@ import com.codingkinetics.pet.procrastinationpanic.util.Logger
 import com.codingkinetics.pet.procrastinationpanic.util.TimberLogger
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -23,14 +24,6 @@ abstract class AppModule {
     abstract fun bindsCoroutineContextProvider(
         coroutineContextProvider: CoroutineContextProviderImpl,
     ): CoroutineContextProvider
-
-    @Singleton
-    @Binds
-    fun providesWorkManager(
-        @ApplicationContext context: Context,
-    ): WorkManager {
-        return WorkManager.getInstance(context)
-    }
 
     @Singleton
     @Binds

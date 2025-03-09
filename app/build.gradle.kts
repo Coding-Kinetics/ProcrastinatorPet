@@ -79,7 +79,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.material)
     implementation(libs.timber)
-    implementation(libs.android.driver)
+    implementation(libs.android.sql.driver)
 
     ksp(libs.hilt.android.compiler)
 

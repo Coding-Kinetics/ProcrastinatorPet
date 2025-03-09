@@ -9,4 +9,6 @@ interface TaskLocalSource {
     suspend fun insertTask(task: TaskEntity): Result<List<TaskEntity>>
 
     suspend fun getAll(): Result<List<TaskEntity>>
+
+    suspend fun deleteTask(id: Int): Result<Boolean>
 }

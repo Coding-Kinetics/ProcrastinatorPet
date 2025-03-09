@@ -1,0 +1,25 @@
+CREATE TABLE petEntity (
+  uid INTEGER PRIMARY KEY NOT NULL,
+  petName TEXT NOT NULL,
+  ownerName TEXT NOT NULL,
+  petStatus TEXT
+);
+
+insertPet:
+INSERT INTO petEntity(uid, petName, ownerName, petStatus)
+VALUES ?;
+
+findById:
+SELECT * FROM petEntity WHERE uid=?;
+
+deleteTask:
+DELETE FROM petEntity WHERE uid=?;
+
+INSERT INTO petEntity (uid, petName, ownerName, petStatus)
+VALUES
+(
+    1,
+    'Blake',
+    'Amanda',
+    'HAPPY'
+);

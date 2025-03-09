@@ -11,5 +11,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 abstract class UseCases {
     @Binds
-    abstract fun bindsCalculatePetStatusUseCase(calculatePetStatusUseCase: CalculatePetStatusUseCase): PetStatusUseCase
+    abstract fun bindsCalculatePetStatusUseCase(
+        calculatePetStatusUseCase: CalculatePetStatusUseCase
+    ): PetStatusUseCase
 }
