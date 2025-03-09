@@ -22,29 +22,11 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Provides
     @Singleton
-    @Named("TaskDatabase")
-    fun provideTaskDatabase(@ApplicationContext context: Context): Database = Database(
+    fun providesDatabase(@ApplicationContext context: Context): Database = Database(
         AndroidSqliteDriver(
             Database.Schema,
             context,
-            "Task.db",
-            callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
-                override fun onOpen(db: SupportSQLiteDatabase) {
-                    super.onOpen(db)
-                    db.setForeignKeyConstraintsEnabled(true)
-                }
-            },
-        ),
-    )
-
-    @Provides
-    @Singleton
-    @Named("PetDatabase")
-    fun providePetDatabase(@ApplicationContext context: Context): Database = Database(
-        AndroidSqliteDriver(
-            Database.Schema,
-            context,
-            "Pet.db",
+            "Database.db",
             callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
                 override fun onOpen(db: SupportSQLiteDatabase) {
                     super.onOpen(db)

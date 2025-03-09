@@ -17,15 +17,17 @@ interface PetLocalSource {
 }
 
 class PetDataLocalSource @Inject constructor(
-    @Named("PetDatabase") private val database: Database,
+    private val database: Database,
     private val logger: Logger,
 ): PetLocalSource {
+
     override suspend fun getPet(id: Int): Result<PetEntity> =
         try {
             val result = database.petQueries.findById(id.toLong()).executeAsOne()
             Result.Success(result)
         } catch (e: Exception) {
             logger.logError(TAG, "Unable to insert task. Cause: $e")
+            kotlin.Result.failure<PetEntity>(Throwable(e))
             Result.Failure(e)
         }
 
@@ -34,6 +36,6 @@ class PetDataLocalSource @Inject constructor(
     }
 
     override suspend fun deletePet(id: Int): Result<Boolean> {
-        TODO("Not yet implemented")
+        return Result.Success(true)
     }
 }
